@@ -2,20 +2,30 @@ import * as kdbxweb from 'kdbxweb';
 
 const htmlContainer = `
 <div id="plugin-container">
-	<ul id="plugin-list"></ul>
-	<div id="plugin-entries">
-		<table>
-			<thead>
-			  	<tr>
-			    		<th>Title</th>
-			    		<th>Username</th>
-			    		<th>Password</th>
-			  	</tr>
-			</thead>
-			<span class="tooltiptext">Copied to clipboard</span>
-			<tbody></tbody>
-		</table>
-	</div>
+  <div class="master-key-input">
+    <form>
+      <label for="masterKey">Enter password:</label>
+      <br><br>
+      <input type="password" id="masterKey" name="masterKey">
+      <p class="wrong-password" style="color: red; display: none;">Wrong password, please retry</p>
+    </form>
+  </div>
+  <div class="main-panel main-panel-disabled">
+    <ul id="plugin-list"></ul>
+    <div id="plugin-entries">
+      <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Username</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <span class="tooltiptext">Copied to clipboard</span>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 `;
 
@@ -24,11 +34,37 @@ let currentSelectedElement;
 async function load(element, url) {
   element.innerHTML = htmlContainer;
   const blob = await (await fetch(url)).blob();
-  const password = prompt('Enter in the password');
+
+  document
+    .querySelector('#plugin-container .master-key-input form')
+    .addEventListener('submit', function (event) {
+      event.preventDefault();
+      decrypt(
+        blob,
+        document.querySelector('#plugin-container .master-key-input form input')
+          .value
+      );
+    });
+}
+async function decrypt(blob, masterKey) {
   const credentials = new kdbxweb.Credentials(
-    kdbxweb.ProtectedValue.fromString(password)
+    kdbxweb.ProtectedValue.fromString(masterKey)
   );
-  db = await kdbxweb.Kdbx.load(await blob.arrayBuffer(), credentials);
+
+  try {
+    db = await kdbxweb.Kdbx.load(await blob.arrayBuffer(), credentials);
+    document.querySelector(
+      '#plugin-container .master-key-input'
+    ).style.display = 'none';
+    const mainPanel = document.querySelector('#plugin-container .main-panel');
+    mainPanel.classList.remove('main-panel-disabled');
+    mainPanel.classList.add('main-panel-enabled');
+  } catch (err) {
+    document.querySelector(
+      '#plugin-container .master-key-input form .wrong-password'
+    ).style.display = 'block';
+    return;
+  }
 
   const mainGroup = db.getDefaultGroup();
   displayRecursive(mainGroup, 0, document.getElementById('plugin-list'));

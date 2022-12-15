@@ -1,8 +1,13 @@
 #plugin-container {
-  display: flex;
+  font-family: Arial, Helvetica, sans-serif;
   width: 100%;
   height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+}
+#plugin-container .master-key-input form {
+  text-align: center;
+}
+#plugin-container .main-panel {
+  display: flex;
   padding: 0;
   max-height: 400px;
 }
@@ -108,6 +113,12 @@
   visibility: visible;
   opacity: 1;
 }
+#plugin-container .main-panel-enabled {
+  display: flex;
+}
+#plugin-container .main-panel-disabled {
+  display: none;
+}
 
 @media only screen and (max-width: 600px) {
   #plugin-entries {
@@ -116,7 +127,7 @@
   #plugin-list ul {
     width: 100%;
   }
-  #plugin-container {
+  #plugin-container .main-panel-enabled {
     display: block;
   }
 }
