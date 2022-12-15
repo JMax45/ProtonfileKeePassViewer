@@ -1,0 +1,119 @@
+#plugin-container {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 0;
+	max-height: 400px;
+}
+#plugin-entries table th {
+	text-align: left;
+}
+#plugin-entries {
+	overflow-y: scroll;
+}
+#plugin-entries {
+	width: 70%;
+}
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	width: 30%;
+}
+#plugin-list li {
+	cursor: pointer;
+}
+.caret {
+	cursor: pointer;
+	-webkit-user-select: none; /* Safari 3.1+ */
+	-moz-user-select: none; /* Firefox 2+ */
+	-ms-user-select: none; /* IE 10+ */
+	user-select: none;
+}
+.caret .arrow::before {
+	content: "\25B6";
+	color: black;
+	display: inline-block;
+	margin-right: 6px;
+}
+.caret-down::before {
+	-ms-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);  
+}
+.nested {
+	display: none;
+}
+.active {
+	display: block;
+	padding-left: 20px;
+	list-style-type: none;
+	width: 100%;
+}
+.selected {
+	background-color: #f7d8c3;
+}
+#plugin-entries table {
+	width: 100%;
+ 	border-collapse: collapse;
+	table-layout: fixed;
+}
+#plugin-entries table td, #plugin-entries table th {
+	border: 1px solid #ddd;
+	padding: 8px;
+	white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+}
+#plugin-entries table th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #F6690C;
+	color: white;
+}
+#plugin-entries table tr:nth-child(even){background-color: #f7d8c3;}
+#plugin-entries table tr:hover {background-color: #ddd;}
+.tooltiptext {
+	visibility: hidden;
+	width: 150px;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	left: 50%;
+	margin-left: -60px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+.tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+.tooltiptext-enabled {
+	visibility: visible;
+	opacity: 1;
+}
+
+@media only screen and (max-width: 600px) {
+	#plugin-entries {
+		width: 100%;
+	}
+	ul {
+		width: 100%;
+	}
+	#plugin-container {
+		display: block;
+	}
+}

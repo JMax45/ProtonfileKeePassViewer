@@ -1,0 +1,25 @@
+{
+  "name": "KeePass Viewer",
+  "version": "1.0.0",
+  "description": "KeePass database viewer (read-only)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx webpack && browserify -t browserify-css dist/bundle2.js src/style.css > dist/bundle.js && node scripts/build.js"
+  },
+  "keywords": [
+    "KeePass",
+    "Password Vault"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browserify-css": "^0.15.0",
+    "jszip": "^3.10.1",
+    "kdbxweb": "^2.1.1",
+    "node-polyfill-webpack-plugin": "^2.0.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.0.1"
+  }
+}
