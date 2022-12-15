@@ -89,9 +89,9 @@ function selectHandler(group) {
 }
 function handleClipboardCopy(event, entry, entryField) {
   navigator.clipboard.writeText(
-    entry.fields.get(entryField) ||
-      entry.fields.get(entryField).getText() ||
-      entry.fields.get(entryField)
+    entry.fields.get(entryField).getText
+      ? entry.fields.get(entryField).getText()
+      : entry.fields.get(entryField)
   );
   const x = event.clientX;
   const y = event.clientY;
