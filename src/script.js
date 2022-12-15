@@ -88,7 +88,7 @@ function selectHandler(group) {
   updateTable(group);
 }
 function handleClipboardCopy(event, entry, entryField) {
-  navigator.clipboard.writeText(entry.fields.get(entryField));
+  navigator.clipboard.writeText(entry.fields.get(entryField).getText());
   const x = event.clientX;
   const y = event.clientY;
   const tooltip = document.querySelector('.tooltiptext');
