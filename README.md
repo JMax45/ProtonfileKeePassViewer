@@ -4,6 +4,8 @@
 
 ProtonfileKeePassViewer is a Protonfile plugin which enables you to view your KeePass database in the Protonfile app (currently read-only).
 
+![dashboard picture](https://github.com/JMax45/ProtonfileKeePassViewer/blob/media/demo1.png)
+
 ## Installation
 
 ProtonfileKeePassViewer supports **kdbx3** databases only.
