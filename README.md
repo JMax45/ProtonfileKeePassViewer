@@ -14,6 +14,13 @@ ProtonfileKeePassViewer supports **kdbx3** databases only.
 2. Open Protonfile, Go to Plugins -> "Drag & Drop your plugin or Browse", upload the **.plg** downloaded previously.
 3. You should have ProtonfileKeePassViewer installed.
 
+## Modules
+
+- [kdbxweb] - A high-performance javascript library for reading/writing KeePass v2 databases (kdbx) in node.js or browser.
+
 ## License
 
 MIT
+
+[//]: #
+[kdbxweb]: https://github.com/keeweb/kdbxweb
