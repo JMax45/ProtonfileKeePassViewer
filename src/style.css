@@ -120,6 +120,36 @@
   display: none;
 }
 
+#plugin-container .context-menu {
+  visibility: hidden;
+  width: 230px;
+  height: 270px;
+  background-color: #555;
+  color: #fff;
+  border-radius: 2px;
+  padding: 0;
+  position: fixed;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#plugin-container .context-menu-enabled {
+  visibility: visible;
+  opacity: 1;
+}
+#plugin-container .context-menu-enabled ul {
+  list-style-type: none;
+  padding: 10px 0;
+  margin: 0;
+}
+#plugin-container .context-menu-enabled li {
+  padding: 2px 20px;
+}
+#plugin-container .context-menu-enabled li:hover {
+  background-color: #5294e2;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 600px) {
   #plugin-entries {
     width: 100%;

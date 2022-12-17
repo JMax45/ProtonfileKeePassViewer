@@ -22,6 +22,13 @@ const htmlContainer = `
             </tr>
         </thead>
         <span class="tooltiptext">Copied to clipboard</span>
+        <div class="context-menu">
+          <ul>
+			      <li class="tt-username">Copy username</li>
+            <li class="tt-password">Copy password</li>
+            <li class="tt-url">Copy URL</li>
+		      </ul>
+	      </div>
         <tbody></tbody>
       </table>
     </div>
@@ -31,6 +38,18 @@ const htmlContainer = `
 
 let db;
 let currentSelectedElement;
+
+function handleRightClick(event) {
+  event.preventDefault();
+  const x = event.clientX;
+  const y = event.clientY;
+
+  const contextMenu = document.querySelector('.context-menu');
+  contextMenu.style.top = `${y}px`;
+  contextMenu.style.left = `${x}px`;
+  contextMenu.classList.remove('context-menu-enabled');
+  contextMenu.classList.add('context-menu-enabled');
+}
 async function load(element, url) {
   element.innerHTML = htmlContainer;
   const blob = await (await fetch(url)).blob();
@@ -45,6 +64,16 @@ async function load(element, url) {
           .value
       );
     });
+
+  document.addEventListener('click', function (event) {
+    const outsideClick = !document
+      .querySelector('.context-menu')
+      .contains(event.target);
+    if (!outsideClick) return;
+    document
+      .querySelector('.context-menu')
+      .classList.remove('context-menu-enabled');
+  });
 }
 async function decrypt(blob, masterKey) {
   const credentials = new kdbxweb.Credentials(
@@ -93,6 +122,11 @@ function handleClipboardCopy(event, entry, entryField) {
       ? entry.fields.get(entryField).getText()
       : entry.fields.get(entryField)
   );
+  document
+    .querySelector('.context-menu')
+    .classList.remove('context-menu-enabled');
+
+  if (!event) return;
   const x = event.clientX;
   const y = event.clientY;
   const tooltip = document.querySelector('.tooltiptext');
@@ -106,11 +140,31 @@ function handleClipboardCopy(event, entry, entryField) {
     1000
   );
 }
+
+let ttEntry = null;
+const ttUsernameListener = () => handleClipboardCopy(null, ttEntry, 'UserName');
+const ttPasswordListener = () => handleClipboardCopy(null, ttEntry, 'Password');
+const ttUrlListener = () => handleClipboardCopy(null, ttEntry, 'URL');
+
 function updateTable(group) {
   const table = document.querySelector('#plugin-entries tbody');
   table.innerHTML = '';
   for (const entry of group.entries) {
     const tr = document.createElement('tr');
+    tr.addEventListener('contextmenu', (event) => {
+      handleRightClick(event);
+      ttEntry = entry;
+      const contextMenu = document.querySelector('.context-menu');
+      const ttUsername = contextMenu.querySelector('.tt-username');
+      const ttPassword = contextMenu.querySelector('.tt-password');
+      const ttUrl = contextMenu.querySelector('.tt-url');
+      ttUsername.removeEventListener('click', ttUsernameListener);
+      ttPassword.removeEventListener('click', ttPasswordListener);
+      ttUrl.removeEventListener('click', ttUrlListener);
+      ttUsername.addEventListener('click', ttUsernameListener);
+      ttPassword.addEventListener('click', ttPasswordListener);
+      ttUrl.addEventListener('click', ttUrlListener);
+    });
     const td1 = document.createElement('td');
     const td2 = document.createElement('td');
     const td3 = document.createElement('td');
